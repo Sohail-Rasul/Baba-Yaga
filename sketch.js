@@ -1,5 +1,16 @@
-var wall,wallimg,box,boximg,boxes,boxesimg,house,houseimg,player,playerFimg,playershootFimg,
-enemyF,enemyFimg,enemyshootFimg,stone,stoneimg,tree,treeimg,bg,wallH,wallHimg,grass,grassimg;
+var wall,wallimg
+var box,boximg,boxes,boxesimg
+var house,houseimg;
+var player,playerRimg,playershootRimg;
+var enemyF,enemyFimg,enemyshootFimg;
+var stone,stoneimg;
+var tree,treeimg;
+var bg;;
+var wallH,wallHimg;
+var grass,grassimg;
+var ground,groundimg;
+var bench,benchimg,benchHimg;
+var pond,pondimg
 var form,game;
 var gameState=0;
 var name='';
@@ -7,7 +18,7 @@ function preload(){
 wallimg=loadImage("Images/Wall.png");
 boximg=loadImage("Images/Box.png");
 boxesimg=loadImage("Images/Boxes.png");
-houseimg=loadImage("Images/House.png");
+houseimg=loadImage("Images/Hostages.png");
 playerimg=loadImage("Images/PlayerR.png");
 playershootimg=loadImage("Images/PlayerShootR.png");
 enemyimg=loadImage("Images/EnemyF.png");
@@ -17,6 +28,10 @@ treeimg=loadImage("Images/Tree.png");
 bg=loadImage("Images/Map1.png");
 wallHimg=loadImage("Images/WallH.png");
 grassimg=loadImage("Images/grass.png");
+groundimg=loadImage("Images/ground.png");
+benchimg=loadImage("Images/bench.png");
+benchHimg=loadImage("Images/benchH.png")
+pondimg=loadImage("Images/Pond.png");
 }
 function setup(){
 createCanvas(1366,653);
@@ -28,6 +43,7 @@ player= createSprite(600,500,20,20);
     player.addImage("p",playerimg);
     player.addImage("ps",playershootimg);
     player.scale=0.5;
+    // WALLS
     wall1= createSprite(150,400,20,20);
     wall1.addImage(wallHimg);
     wall2=createSprite(210,400,20,20);
@@ -88,24 +104,38 @@ player= createSprite(600,500,20,20);
     wall25.addImage(wallHimg);
     wall26=createSprite(370,167.5,20,20);
     wall26.addImage(wallimg);
-    
+    //stones
     stone1=createSprite(170,320,20,20);
     stone1.addImage(stoneimg);
     stone2=createSprite(400,70,20,20)
     stone2.addImage(stoneimg);
-
+    // trees
     tree1=createSprite(200,120,20,20);
     tree1.addImage(treeimg);
     tree2=createSprite(460,230,20,20);
-    tree2.addImage(treeimg)
+    tree2.addImage(treeimg);
+    tree3=createSprite(200,520,20,20);
+    tree3.addImage(treeimg);
+    tree4=createSprite(240,590,20,20);
+    tree4.addImage(treeimg);
+    tree5=createSprite(500,480,20,20);
+    tree5.addImage(treeimg);
+    tree6=createSprite(830,320,20,20);
+    tree6.addImage(treeimg);
+    tree7=createSprite(650,560,20,20);
+    tree7.addImage(treeimg);
+    tree8=createSprite(780,530,20,20);
+    tree8.addImage(treeimg);
+    
 
+    // boxes
     box1=createSprite(680,250,20,20);
     box1.addImage(boxesimg);
     box2=createSprite(160,190,20,20);
     box2.addImage(boxesimg);
     box3=createSprite(750,50,20,20);
     box3.addImage(boxesimg);
-
+    // grass
     grass1=createSprite(500,350,20,20);
     grass1.addImage(grassimg);
     grass1.scale=0.5
@@ -121,9 +151,55 @@ player= createSprite(600,500,20,20);
     grass5=createSprite(80,270,20,20);
     grass5.addImage(grassimg);
     grass5.scale=0.5
-    
+    grass6=createSprite(500,550,20,20);
+    grass6.addImage(grassimg);
+    grass6.scale=0.5
+    grass7=createSprite(690,490,20,20);
+    grass7.addImage(grassimg);
+    grass7.scale=0.5
+    grass8=createSprite(880,250,20,20);
+    grass8.addImage(grassimg);
+    grass8.scale=0.5
+    grass9=createSprite(50,600,20,20);
+    grass9.addImage(grassimg);
+    grass9.scale=0.5
+    grass10=createSprite(500,350,20,20);
+    grass10.addImage(grassimg);
+    grass10.scale=0.5
+    // Dirt
+    dirt1=createSprite(230,200,20,20);
+    dirt1.addImage(groundimg);  
+    dirt4=createSprite(630,160,20,20);
+    dirt4.addImage(groundimg);
+    dirt6=createSprite(600,340,20,20);
+    dirt6.addImage(groundimg);
+    dirt7=createSprite(400,500,20,20);
+    dirt7.addImage(groundimg);
+    dirt9=createSprite(840,500,20,20);
+    dirt9.addImage(groundimg);
+    dirt10=createSprite(100,600,20,20);
+    dirt10.addImage(groundimg);
+    dirt11=createSprite(100,70,20,20);
+    dirt11.addImage(groundimg)
+    // Pond
+    pond1=createSprite(50,500,20,20);
+    pond1.addImage(pondimg);
+    pond1.scale=1.5
+    // bench
+    bench1=createSprite(400,340,20,20);
+    bench1.addImage(benchimg);
+    bench2=createSprite(500,180,20,20);
+    bench2.addImage(benchHimg);
+    bench3=createSprite(880,200,20,20);
+    bench3.addImage(benchimg);
+    bench4=createSprite(50,150,20,20);
+    bench4.addImage(benchHimg);
+    // Hostages
+    house1=createSprite(50,50,20,20);
+    house1.addImage(houseimg);
+    // SET COLLIDERS
     wall1.setCollider("rectangle",0,0,100,20);
-    wall12.setCollider("rectangle",0,0,100,20);
+    wall2.setCollider("rectangle",0,0,100,20);
     wall3.setCollider("rectangle",0,0,100,20);
     wall4.setCollider("rectangle",0,0,100,20);
     wall5.setCollider("rectangle",0,0,60,20);
@@ -156,6 +232,14 @@ player= createSprite(600,500,20,20);
     stone2.setCollider("circle",-7,7,20);
     tree1.setCollider("circle",-4,0,15);
     tree2.setCollider("circle",-4,0,15);
+    tree3.setCollider("circle",-4,0,15);
+    tree4.setCollider("circle",-4,0,15);
+    tree5.setCollider("circle",-4,0,15);
+    tree6.setCollider("circle",-4,0,15);
+    tree7.setCollider("circle",-4,0,15);
+    tree8.setCollider("circle",-4,0,15);
+    pond1.setCollider("circle",-25,-10,50);
+   
 
 
     player.setCollider("circle",0,-20,20)
@@ -164,6 +248,8 @@ function draw(){
     // background("#839a00");\
     if(gameState===2){
         background("green");
+        fill("grey");
+    rect(945,0,10,653);
         player.pointTo(mouseX,mouseY);
         text(name,player.x-20,player.y+33);
         drawSprites();
@@ -220,6 +306,14 @@ if(keyWentUp("space")){
     player.collide(box3);
     player.collide(tree1);
     player.collide(tree2);
+    player.collide(tree3);
+    player.collide(tree4);
+    player.collide(tree5);
+    player.collide(tree6);
+    player.collide(tree7);
+    player.collide(tree8);
+    player.collide(pond1);
+
     player.collide(stone1);
     player.collide(stone2);
 
@@ -227,7 +321,8 @@ if(keyWentUp("space")){
     fill("black");
     rect(950,0,431,653);
 
-    player.depth=grass1.depth+10;
+    
+    player.depth=dirt1.depth+50;
     
 }
 function play(){
