@@ -1,20 +1,22 @@
 var wall,wallimg,box,boximg,boxes,boxesimg,house,houseimg,player,playerFimg,playershootFimg,
-enemyF,enemyFimg,enemyshootFimg,stone,stoneimg,tree,treeimg,bg,wallH,wallHimg
+enemyF,enemyFimg,enemyshootFimg,stone,stoneimg,tree,treeimg,bg,wallH,wallHimg,grass,grassimg;
 var form,game;
 var gameState=0;
+var name='';
 function preload(){
 wallimg=loadImage("Images/Wall.png");
 boximg=loadImage("Images/Box.png");
 boxesimg=loadImage("Images/Boxes.png");
 houseimg=loadImage("Images/House.png");
 playerimg=loadImage("Images/PlayerR.png");
-playershootimg=loadImage("Images/PlayerShootF.png");
+playershootimg=loadImage("Images/PlayerShootR.png");
 enemyimg=loadImage("Images/EnemyF.png");
 enemyshootimg=loadImage("Images/EnemyShootF.png");
 stoneimg=loadImage("Images/Stone.png");
 treeimg=loadImage("Images/Tree.png");
 bg=loadImage("Images/Map1.png");
 wallHimg=loadImage("Images/WallH.png");
+grassimg=loadImage("Images/grass.png");
 }
 function setup(){
 createCanvas(1366,653);
@@ -23,7 +25,8 @@ form= new Form();
 form.display();
 edges=createEdgeSprites();
 player= createSprite(600,500,20,20);
-    player.addImage(playerimg);
+    player.addImage("p",playerimg);
+    player.addImage("ps",playershootimg);
     player.scale=0.5;
     wall1= createSprite(150,400,20,20);
     wall1.addImage(wallHimg);
@@ -74,6 +77,50 @@ player= createSprite(600,500,20,20);
     wall22=createSprite(935,20,20,20);
     wall22.addImage(wallimg)
     wallinv=createSprite(935,-30,20,20);
+
+    //left= x dist- 26, y dist- 32.5
+    // right =x dist+20 y dist -32.5
+    wall23=createSprite(570,100,20,20);
+    wall23.addImage(wallHimg);
+    wall24=createSprite(544,67.5,20,20);
+    wall24.addImage(wallimg);
+    wall25=createSprite(350,200,20,20);
+    wall25.addImage(wallHimg);
+    wall26=createSprite(370,167.5,20,20);
+    wall26.addImage(wallimg);
+    
+    stone1=createSprite(170,320,20,20);
+    stone1.addImage(stoneimg);
+    stone2=createSprite(400,70,20,20)
+    stone2.addImage(stoneimg);
+
+    tree1=createSprite(200,120,20,20);
+    tree1.addImage(treeimg);
+    tree2=createSprite(460,230,20,20);
+    tree2.addImage(treeimg)
+
+    box1=createSprite(680,250,20,20);
+    box1.addImage(boxesimg);
+    box2=createSprite(160,190,20,20);
+    box2.addImage(boxesimg);
+    box3=createSprite(750,50,20,20);
+    box3.addImage(boxesimg);
+
+    grass1=createSprite(500,350,20,20);
+    grass1.addImage(grassimg);
+    grass1.scale=0.5
+    grass2=createSprite(300,300,20,20);
+    grass2.addImage(grassimg);
+    grass2.scale=0.5
+    grass3=createSprite(270,130,20,20);
+    grass3.addImage(grassimg);
+    grass3.scale=0.5
+    grass4=createSprite(700,170,20,20);
+    grass4.addImage(grassimg);
+    grass4.scale=0.5
+    grass5=createSprite(80,270,20,20);
+    grass5.addImage(grassimg);
+    grass5.scale=0.5
     
     wall1.setCollider("rectangle",0,0,100,20);
     wall12.setCollider("rectangle",0,0,100,20);
@@ -98,7 +145,19 @@ player= createSprite(600,500,20,20);
     wall21.setCollider("rectangle",0,0,20,100);
     wall22.setCollider("rectangle",0,0,20,100);
     wallinv.setCollider("rectangle",0,0,20,2000);
-    
+    wall23.setCollider("rectangle",-10,0,70,20);
+    wall24.setCollider("rectangle",0,0,20,70);
+    wall25.setCollider("rectangle",-10,0,70,20);
+    wall26.setCollider("rectangle",0,0,20,70);;
+    box1.setCollider("circle",0,0,40);
+    box2.setCollider("circle",0,10,30);
+    box3.setCollider("circle",0,0,40);
+    stone1.setCollider("circle",-7,7,20);
+    stone2.setCollider("circle",-7,7,20);
+    tree1.setCollider("circle",-4,0,15);
+    tree2.setCollider("circle",-4,0,15);
+
+
     player.setCollider("circle",0,-20,20)
 }
 function draw(){
@@ -106,6 +165,7 @@ function draw(){
     if(gameState===2){
         background("green");
         player.pointTo(mouseX,mouseY);
+        text(name,player.x-20,player.y+33);
         drawSprites();
     }
     if(keyDown("w")){
@@ -120,6 +180,13 @@ function draw(){
     if(keyDown("d")){
         player.x=player.x+3
     }
+
+if(keyWentDown("space")){
+    player.changeImage("ps",playershootimg);
+}
+if(keyWentUp("space")){
+    player.changeImage("p",playerimg);
+}
 
     player.collide(wall1);
     player.collide(wall2);
@@ -144,8 +211,24 @@ function draw(){
     player.collide(wall21);
     player.collide(wall22);
     player.collide(wallinv);
+    player.collide(wall23);
+    player.collide(wall24);
+    player.collide(wall25);
+    player.collide(wall26);
+    player.collide(box1);
+    player.collide(box2);
+    player.collide(box3);
+    player.collide(tree1);
+    player.collide(tree2);
+    player.collide(stone1);
+    player.collide(stone2);
 
     player.collide(edges);
+    fill("black");
+    rect(950,0,431,653);
+
+    player.depth=grass1.depth+10;
+    
 }
 function play(){
     background("green");
