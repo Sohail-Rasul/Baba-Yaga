@@ -249,9 +249,17 @@ function draw(){
     if(gameState===2){
         background("green");
         fill("grey");
-    rect(945,0,10,653);
+      rect(945,0,10,653);
         player.pointTo(mouseX,mouseY);
         text(name,player.x-20,player.y+33);
+        
+     if(mouseX - player.x < 200 && mouseY - player.y < 200 && player.x - mouseX< 200 && player.y - mouseY<200){
+    for(var i=0; i< 200; i = i+20){ push()
+        stroke(255)
+        strokeWeight(3) 
+        line(player.x,player.y,mouseX,mouseY)
+        pop()} }
+
         drawSprites();
     }
     if(keyDown("w")){
@@ -321,7 +329,32 @@ if(keyWentUp("space")){
     fill("black");
     rect(950,0,431,653);
 
-    
+    //texts
+    fill("white")
+    textSize(15);
+    text('= MOVE WITH W,A,S,D =',1050,150);
+    text('= PRESS SPACEBAR TO SHOOT =',1050,200);
+    text('= USE MOUSE TO AIM =',1050,250);
+    text('= BULLETS HAVE LIMITED RANGE =',1050,300);
+    text('====================================',1020,320);
+    if(gameState!=2){
+    text('Your character was part of an Elite Squad which',1020,450);
+    text('was called in for secret missions carried out around',1020,470);
+    text('the globe. During your last mission, your entire',1020,490);
+    text('squad was eliminated by the most wanted man in',1020,510);
+    text('history, Marko Tarkov. You set out for revenge',1020,530);
+    text('and swear that your name will haunt every',1020,550);
+    text('Wrong-Doer for hundreds of years ...',1020,570);
+    textSize(20)
+    text('BABA YAGA .....',1020,620)
+    }
+    if(gameState===2){
+    textSize(15);
+    text('You have recieved information about the location',1020,450);
+    text('of one of Tarkovs hideouts where his plans may be',1020,470);
+    text('kept. Your goal is to eliminate all the hostiles',1020,490);
+    text('and steal the plans. GOOD LUCK!',1020,510);
+    }
     player.depth=dirt1.depth+50;
     
 }
