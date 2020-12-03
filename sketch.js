@@ -5,12 +5,13 @@ var player,playerRimg,playershootRimg;
 var enemyF,enemyFimg,enemyshootFimg;
 var stone,stoneimg;
 var tree,treeimg;
-var bg;;
+var bg;
 var wallH,wallHimg;
 var grass,grassimg;
 var ground,groundimg;
 var bench,benchimg,benchHimg;
 var pond,pondimg
+var bullet,bulletimg;
 var form,game;
 var gameState=0;
 var name='';
@@ -21,8 +22,8 @@ boxesimg=loadImage("Images/Boxes.png");
 houseimg=loadImage("Images/Hostages.png");
 playerimg=loadImage("Images/PlayerR.png");
 playershootimg=loadImage("Images/PlayerShootR.png");
-enemyimg=loadImage("Images/EnemyF.png");
-enemyshootimg=loadImage("Images/EnemyShootF.png");
+enemyimg=loadImage("Images/EnemyR.png");
+enemyshootimg=loadImage("Images/EnemyShootR.png");
 stoneimg=loadImage("Images/Stone.png");
 treeimg=loadImage("Images/Tree.png");
 bg=loadImage("Images/Map1.png");
@@ -32,6 +33,7 @@ groundimg=loadImage("Images/ground.png");
 benchimg=loadImage("Images/bench.png");
 benchHimg=loadImage("Images/benchH.png")
 pondimg=loadImage("Images/Pond.png");
+bulletimg=loadImage("Images/Bullet.png");
 }
 function setup(){
 createCanvas(1366,653);
@@ -197,6 +199,46 @@ player= createSprite(600,500,20,20);
     // Hostages
     house1=createSprite(50,50,20,20);
     house1.addImage(houseimg);
+    //enemies
+    enemy1=createSprite(120,330,20,20);
+    enemy1.addImage("e",enemyimg);
+    enemy1.addImage("s",enemyshootimg);
+    enemy1.scale=0.5;
+    enemy2=createSprite(200,180,20,20);
+    enemy2.addImage("e",enemyimg);
+    enemy2.addImage("s",enemyshootimg);
+    enemy2.scale=0.5;
+    enemy3=createSprite(425,65,20,20);
+    enemy3.addImage("e",enemyimg);
+    enemy3.addImage("s",enemyshootimg);
+    enemy3.scale=0.5;
+    enemy4=createSprite(614,100,20,20);
+    enemy4.addImage("e",enemyimg);
+    enemy4.addImage("s",enemyshootimg);
+    enemy4.scale=0.5;
+    enemy5=createSprite(713,310,20,20);
+    enemy5.addImage("e",enemyimg);
+    enemy5.addImage("s",enemyshootimg);
+    enemy5.scale=0.5;
+    enemy6=createSprite(55,115,20,20);
+    enemy6.addImage("e",enemyimg);
+    enemy6.addImage("s",enemyshootimg);
+    enemy6.scale=0.5;
+    //bullet
+    bullet=createSprite(player.x,player.y,10,10);
+    bullet.addImage(bulletimg);
+    bullet2=createSprite(enemy1.x,enemy1.y,10,10);
+    bullet2.addImage(bulletimg);
+    bullet3=createSprite(enemy2.x,enemy2.y,10,10);
+    bullet3.addImage(bulletimg);
+    bullet4=createSprite(enemy3.x,enemy3.y,10,10);
+    bullet4.addImage(bulletimg);
+    bullet5=createSprite(enemy4.x,enemy4.y,10,10);
+    bullet5.addImage(bulletimg);
+    bullet6=createSprite(enemy5.x,enemy5.y,10,10);
+    bullet6.addImage(bulletimg);
+    bullet7=createSprite(enemy6.x,enemy6.y,10,10);
+    bullet7.addImage(bulletimg);
     // SET COLLIDERS
     wall1.setCollider("rectangle",0,0,100,20);
     wall2.setCollider("rectangle",0,0,100,20);
@@ -239,7 +281,7 @@ player= createSprite(600,500,20,20);
     tree7.setCollider("circle",-4,0,15);
     tree8.setCollider("circle",-4,0,15);
     pond1.setCollider("circle",-25,-10,50);
-   
+    house1.setCollider("rectangle",-20,0,40,90);
 
 
     player.setCollider("circle",0,-20,20)
@@ -260,6 +302,54 @@ function draw(){
         line(player.x,player.y,mouseX,mouseY)
         pop()} }
 
+        if(player.x-enemy1.x<150 && player.y-enemy1.y<150 && enemy1.x-player.x<150 && enemy1.y-player.y<150){
+            enemy1.pointTo(player.x,player.y);
+            enemy1.changeImage("s",enemyshootimg);
+            bullet.setSpeedAndDirection(5, player.y);
+        }
+        else{
+            enemy1.changeImage("e",enemyimg);
+        }
+        if(player.x-enemy2.x<150 && player.y-enemy2.y<150 && enemy2.x-player.x<150 && enemy2.y-player.y<150){
+            enemy2.pointTo(player.x,player.y);
+            enemy2.changeImage("s",enemyshootimg);
+            bullet2.setSpeedAndDirection(5, player.y);
+        }
+        else{
+            enemy2.changeImage("e",enemyimg);
+        }
+        if(player.x-enemy3.x<150 && player.y-enemy3.y<150 && enemy3.x-player.x<150 && enemy3.y-player.y<150){
+            enemy3.pointTo(player.x,player.y);
+            enemy3.changeImage("s",enemyshootimg);
+            bullet3.setSpeedAndDirection(5, player.y);
+        }   
+        else{
+            enemy3.changeImage("e",enemyimg);
+        }
+        if(player.x-enemy4.x<150 && player.y-enemy4.y<150 && enemy4.x-player.x<150 && enemy4.y-player.y<150){
+            enemy4.pointTo(player.x,player.y);
+            enemy4.changeImage("s",enemyshootimg);
+            bullet4.setSpeedAndDirection(5, player.y);
+        }
+        else{
+            enemy4.changeImage("e",enemyimg);
+        }
+        if(player.x-enemy5.x<150 && player.y-enemy5.y<150 && enemy5.x-player.x<150 && enemy5.y-player.y<150){
+            enemy5.pointTo(player.x,player.y);
+            enemy5.changeImage("s",enemyshootimg);
+            bullet5.setSpeedAndDirection(5, player.y);
+        }
+        else{
+            enemy5.changeImage("e",enemyimg);
+        }
+        if(player.x-enemy6.x<150 && player.y-enemy6.y<150 && enemy6.x-player.x<150 && enemy6.y-player.y<150){
+            enemy6.pointTo(player.x,player.y);
+            enemy6.changeImage("s",enemyshootimg);
+            bullet6.setSpeedAndDirection(5, player.y);
+        }
+        else{
+            enemy6.changeImage("e",enemyimg);
+        }
         drawSprites();
     }
     if(keyDown("w")){
@@ -324,6 +414,8 @@ if(keyWentUp("space")){
 
     player.collide(stone1);
     player.collide(stone2);
+
+    player.collide(house1);
 
     player.collide(edges);
     fill("black");
