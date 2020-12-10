@@ -12,7 +12,11 @@ var ground,groundimg;
 var bench,benchimg,benchHimg;
 var pond,pondimg
 var bullet,bulletimg;
+var trophy=0;
+var health=100;
+var health100,health80,health60,health40,health20,health0;
 var form,game;
+var gunshot;
 var gameState=0;
 var name='';
 function preload(){
@@ -34,6 +38,13 @@ benchimg=loadImage("Images/bench.png");
 benchHimg=loadImage("Images/benchH.png")
 pondimg=loadImage("Images/Pond.png");
 bulletimg=loadImage("Images/Bullet.png");
+health100=loadImage("Images/100.png");
+health80=loadImage("Images/80.png");
+health60=loadImage("Images/60.png");
+health40=loadImage("Images/40.png");
+health20=loadImage("Images/20.png");
+health0=loadImage("Images/0.png");
+gunshot=loadSound("gunshot.mp3");
 }
 function setup(){
 createCanvas(1366,653);
@@ -225,8 +236,7 @@ player= createSprite(600,500,20,20);
     enemy6.addImage("s",enemyshootimg);
     enemy6.scale=0.5;
     //bullet
-    bullet=createSprite(player.x,player.y,10,10);
-    bullet.addImage(bulletimg);
+ 
     bullet2=createSprite(enemy1.x,enemy1.y,10,10);
     bullet2.addImage(bulletimg);
     bullet3=createSprite(enemy2.x,enemy2.y,10,10);
@@ -239,6 +249,11 @@ player= createSprite(600,500,20,20);
     bullet6.addImage(bulletimg);
     bullet7=createSprite(enemy6.x,enemy6.y,10,10);
     bullet7.addImage(bulletimg);
+    // SECRET
+    secret=createSprite(757,388,10,10);
+    //health
+    health1=createSprite(870,630,10,10);
+    health1.addImage(health100);
     // SET COLLIDERS
     wall1.setCollider("rectangle",0,0,100,20);
     wall2.setCollider("rectangle",0,0,100,20);
@@ -281,7 +296,16 @@ player= createSprite(600,500,20,20);
     tree7.setCollider("circle",-4,0,15);
     tree8.setCollider("circle",-4,0,15);
     pond1.setCollider("circle",-25,-10,50);
-    house1.setCollider("rectangle",-20,0,40,90);
+    house1.setCollider("rectangle",-20,0,40,90)
+    
+    
+    bullet2.setCollider("rectangle",0,0,10,10);
+    bullet3.setCollider("rectangle",0,0,10,10);
+    bullet4.setCollider("rectangle",0,0,10,10);
+    bullet5.setCollider("rectangle",0,0,10,10);
+    bullet6.setCollider("rectangle",0,0,10,10);
+    bullet7.setCollider("rectangle",0,0,10,10);
+
 
 
     player.setCollider("circle",0,-20,20)
@@ -300,12 +324,45 @@ function draw(){
         stroke(255)
         strokeWeight(3) 
         line(player.x,player.y,mouseX,mouseY)
-        pop()} }
+        pop()} 
+        if(keyWentDown("space") && gameState===2){
+            player.changeImage("ps",playershootimg);
+            bullet=createSprite(player.x,player.y,10,10);
+            bullet.addImage(bulletimg);
+            bullet.setCollider("rectangle",0,0,10,10);
+            PlayerShoot(bullet);
+            gunshot.play();  
+        }
+        if(keyWentUp("space")&& gameState===2){
+            player.changeImage("p",playerimg);
+        }
+        if(bullet.isTouching(enemy1)){
+            enemy1.destroy();
+        }
+        if(bullet.isTouching(enemy1)){
+            enemy2.destroy();
+        }
+        if(bullet.isTouching(enemy1)){
+            enemy3.destroy();
+        }
+        if(bullet.isTouching(enemy1)){
+            enemy4.destroy();
+        }
+        if(bullet.isTouching(enemy1)){
+            enemy5.destroy();
+        }
+        if(bullet.isTouching(enemy1)){
+            enemy6.destroy();
+        }
+        
+    }
 
-        if(player.x-enemy1.x<150 && player.y-enemy1.y<150 && enemy1.x-player.x<150 && enemy1.y-player.y<150){
+        if(player.x-enemy1.x<150 && player.y-enemy1.y<150 && enemy1.x-player.x<150 && enemy1.y-player.y<150 ){
             enemy1.pointTo(player.x,player.y);
             enemy1.changeImage("s",enemyshootimg);
-            bullet.setSpeedAndDirection(5, player.y);
+            shoot(bullet2,player);
+            bullet2.lifetime=10;
+            bullet2.debug=true;
         }
         else{
             enemy1.changeImage("e",enemyimg);
@@ -313,7 +370,7 @@ function draw(){
         if(player.x-enemy2.x<150 && player.y-enemy2.y<150 && enemy2.x-player.x<150 && enemy2.y-player.y<150){
             enemy2.pointTo(player.x,player.y);
             enemy2.changeImage("s",enemyshootimg);
-            bullet2.setSpeedAndDirection(5, player.y);
+            shoot(bullet3,player);
         }
         else{
             enemy2.changeImage("e",enemyimg);
@@ -321,7 +378,7 @@ function draw(){
         if(player.x-enemy3.x<150 && player.y-enemy3.y<150 && enemy3.x-player.x<150 && enemy3.y-player.y<150){
             enemy3.pointTo(player.x,player.y);
             enemy3.changeImage("s",enemyshootimg);
-            bullet3.setSpeedAndDirection(5, player.y);
+            shoot(bullet4,player);
         }   
         else{
             enemy3.changeImage("e",enemyimg);
@@ -329,7 +386,7 @@ function draw(){
         if(player.x-enemy4.x<150 && player.y-enemy4.y<150 && enemy4.x-player.x<150 && enemy4.y-player.y<150){
             enemy4.pointTo(player.x,player.y);
             enemy4.changeImage("s",enemyshootimg);
-            bullet4.setSpeedAndDirection(5, player.y);
+            shoot(bullet5,player);
         }
         else{
             enemy4.changeImage("e",enemyimg);
@@ -337,7 +394,7 @@ function draw(){
         if(player.x-enemy5.x<150 && player.y-enemy5.y<150 && enemy5.x-player.x<150 && enemy5.y-player.y<150){
             enemy5.pointTo(player.x,player.y);
             enemy5.changeImage("s",enemyshootimg);
-            bullet5.setSpeedAndDirection(5, player.y);
+            shoot(bullet6,player);
         }
         else{
             enemy5.changeImage("e",enemyimg);
@@ -345,32 +402,61 @@ function draw(){
         if(player.x-enemy6.x<150 && player.y-enemy6.y<150 && enemy6.x-player.x<150 && enemy6.y-player.y<150){
             enemy6.pointTo(player.x,player.y);
             enemy6.changeImage("s",enemyshootimg);
-            bullet6.setSpeedAndDirection(5, player.y);
+            shoot(bullet7,player);
         }
         else{
             enemy6.changeImage("e",enemyimg);
         }
         drawSprites();
     }
-    if(keyDown("w")){
+    if(keyDown("w")&& gameState===2){
         player.y=player.y-3;
     }
-    if(keyDown("s")){
+    if(keyDown("s")&& gameState===2){
         player.y=player.y+3;
     }
-    if(keyDown("a")){
-        player.x=player.x-3;
+    if(keyDown("a")&& gameState===2){
+        player.x=player.x-3
     }
-    if(keyDown("d")){
+    if(keyDown("d")&& gameState===2){
         player.x=player.x+3
     }
 
-if(keyWentDown("space")){
-    player.changeImage("ps",playershootimg);
+
+if(player.isTouching(secret)){
+    text("CONGRATULATIONS, YOU HAVE FOUND THE TROPHY!",500,600);
+    trophy = trophy+1;
 }
-if(keyWentUp("space")){
-    player.changeImage("p",playerimg);
+
+if(bullet2.isTouching(player)){
+    bullet2.destroy();
+    health=health-20;
 }
+if(bullet3.isTouching(player)){
+    bullet3.destroy();
+    health=health-20;
+}
+if(bullet4.isTouching(player)){
+    bullet4.destroy();
+    health=health-20;
+}
+if(bullet5.isTouching(player)){
+    bullet5.destroy();
+    health=health-20;
+}
+if(bullet6.isTouching(player)){
+    bullet6.destroy();
+    health=health-20;
+}
+if(bullet7.isTouching(player)){
+    bullet7.destroy();
+    health=health-20;
+}
+
+
+
+
+
 
     player.collide(wall1);
     player.collide(wall2);
@@ -425,10 +511,15 @@ if(keyWentUp("space")){
     fill("white")
     textSize(15);
     text('= MOVE WITH W,A,S,D =',1050,150);
-    text('= PRESS SPACEBAR TO SHOOT =',1050,200);
-    text('= USE MOUSE TO AIM =',1050,250);
-    text('= BULLETS HAVE LIMITED RANGE =',1050,300);
-    text('====================================',1020,320);
+    text('= PRESS SPACEBAR TO SHOOT =',1050,170);
+    text('= USE MOUSE TO AIM =',1050,190);
+    text('= BULLETS HAVE LIMITED RANGE =',1050,210);
+    text('= BULLETS PASS THROUGH -',1050,230);
+    text('= TREES, BENCHES AND BOXES =',1080,250);
+    text('= BULLETS COLLIDE WITH -',1050,270);
+    text('= STONE & WALLS =',1080,290)
+    text('====================================',1020,310);
+   
     if(gameState!=2){
     text('Your character was part of an Elite Squad which',1020,450);
     text('was called in for secret missions carried out around',1020,470);
@@ -439,6 +530,8 @@ if(keyWentUp("space")){
     text('Wrong-Doer for hundreds of years ...',1020,570);
     textSize(20)
     text('BABA YAGA .....',1020,620)
+    textSize(15);
+    text('You Have Found '+trophy+' trophies',600,590);
     }
     if(gameState===2){
     textSize(15);
@@ -448,7 +541,8 @@ if(keyWentUp("space")){
     text('and steal the plans. GOOD LUCK!',1020,510);
     }
     player.depth=dirt1.depth+50;
-    
+
+    console.log(player.x,player.y) 
 }
 function play(){
     background("green");
@@ -456,3 +550,58 @@ function play(){
    
     drawSprites();
 }
+
+function shoot(b,p) {
+     console.log("calling");
+      var x1 = p.x - b.x; 
+      var y1 = p.y - b.y;
+       var x2 = b.x-p.x; 
+       var y2 = b.y-p.y ;
+        // Using pythagoras' theorm to find the distance (the length of the vector) 
+        var l1 = Math.sqrt(x1 * x1 + y1 * y1); 
+        var l3 = Math.sqrt(x1 * x1 + y2 * y2); 
+        // Dividing by the distance gives a normalized vector whose length is 1 
+        x1 = x1/l1;
+        y1 = y1/l1;
+        x2 = x2/l3;
+         y2 = y2/l3 ;
+        if(p.x >= b.x && p.y >= b.y){
+             b.velocityX = x1 * 10 
+             b.velocityY = y1 * 10 } 
+        if(p.x > b.x && p.y < b.y)
+        {   b.velocityX = x1 * 10 
+            b.velocityY = -y2 * 10 } 
+        if(p.x < b.x && p.y > b.y)
+        {   b.velocityX = -x2 * 10 
+            b.velocityY = y1 * 10 } 
+        if(p.x < b.x && p.y < b.y)
+         {  b.velocityX = -x2 * 10
+            b.velocityY = -y2 * 10 } 
+        }
+        function PlayerShoot(b) {
+            console.log("calling");
+             var x1 = mouseX - b.x; 
+             var y1 = mouseY - b.y;
+              var x2 = b.x-mouseX; 
+              var y2 = b.y-mouseY;
+               // Using pythagoras' theorm to find the distance (the length of the vector) 
+               var l1 = Math.sqrt(x1 * x1 + y1 * y1); 
+               var l3 = Math.sqrt(x1 * x1 + y2 * y2); 
+               // Dividing by the distance gives a normalized vector whose length is 1 
+               x1 = x1/l1;
+               y1 = y1/l1;
+               x2 = x2/l3;
+                y2 = y2/l3 ;
+               if(mouseX >= b.x && mouseY  >= b.y){
+                    b.velocityX = x1 * 20 
+                    b.velocityY = y1 * 20 } 
+               if(mouseX > b.x && mouseY  < b.y)
+               {   b.velocityX = x1 * 20 
+                   b.velocityY = -y2 * 20 } 
+               if(mouseX < b.x && mouseY  > b.y)
+               {   b.velocityX = -x2 * 20 
+                   b.velocityY = y1 * 20 } 
+               if(mouseX< b.x && mouseY  < b.y)
+                {  b.velocityX = -x2 * 20
+                   b.velocityY = -y2 * 20 } 
+               }
